@@ -45,8 +45,46 @@
                     "startLine": 4,
                     "startColumn": 4,
                     "startOffset": 175,
+                    "endColumn": 57,
+                    "endOffset": 228
+                },
+                "from": {
+                    "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\dimen.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 752,
+                        "endColumn": 57,
+                        "endOffset": 805
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 233,
+                    "endColumn": 55,
+                    "endOffset": 284
+                },
+                "from": {
+                    "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\dimen.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 810,
+                        "endColumn": 55,
+                        "endOffset": 861
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 289,
                     "endColumn": 58,
-                    "endOffset": 229
+                    "endOffset": 343
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\dimen.xml",
@@ -61,11 +99,11 @@
             },
             {
                 "to": {
-                    "startLine": 5,
+                    "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 234,
+                    "startOffset": 348,
                     "endColumn": 57,
-                    "endOffset": 287
+                    "endOffset": 401
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\strings.xml",
@@ -80,11 +118,11 @@
             },
             {
                 "to": {
-                    "startLine": 6,
+                    "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 292,
+                    "startOffset": 406,
                     "endColumn": 52,
-                    "endOffset": 340
+                    "endOffset": 454
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\strings.xml",
@@ -99,11 +137,11 @@
             },
             {
                 "to": {
-                    "startLine": 7,
+                    "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 345,
+                    "startOffset": 459,
                     "endColumn": 55,
-                    "endOffset": 396
+                    "endOffset": 510
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\strings.xml",
@@ -118,11 +156,11 @@
             },
             {
                 "to": {
-                    "startLine": 8,
+                    "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 401,
+                    "startOffset": 515,
                     "endColumn": 55,
-                    "endOffset": 452
+                    "endOffset": 566
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\strings.xml",
@@ -137,11 +175,11 @@
             },
             {
                 "to": {
-                    "startLine": 9,
+                    "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 457,
+                    "startOffset": 571,
                     "endColumn": 59,
-                    "endOffset": 512
+                    "endOffset": 626
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\strings.xml",
@@ -156,43 +194,43 @@
             },
             {
                 "to": {
-                    "startLine": 10,
+                    "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 517,
-                    "endLine": 16,
+                    "startOffset": 631,
+                    "endLine": 18,
                     "endColumn": 12,
-                    "endOffset": 803
+                    "endOffset": 926
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 808,
+                        "startOffset": 817,
                         "endLine": 29,
                         "endColumn": 12,
-                        "endOffset": 1094
+                        "endOffset": 1112
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 17,
+                    "startLine": 19,
                     "startColumn": 4,
-                    "startOffset": 808,
-                    "endLine": 19,
+                    "startOffset": 931,
+                    "endLine": 21,
                     "endColumn": 12,
-                    "endOffset": 963
+                    "endOffset": 1086
                 },
                 "from": {
                     "file": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\values\\styles.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
-                        "startOffset": 1132,
+                        "startOffset": 1150,
                         "endLine": 34,
                         "endColumn": 12,
-                        "endOffset": 1287
+                        "endOffset": 1305
                     }
                 }
             }

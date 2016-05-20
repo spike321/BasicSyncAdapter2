@@ -6,5 +6,9 @@
     {
         "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\xml\\syncadapter.xml",
         "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\xml\\syncadapter.xml"
+    },
+    {
+        "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\xml\\activitymain.xml",
+        "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\xml\\activitymain.xml"
     }
 ]

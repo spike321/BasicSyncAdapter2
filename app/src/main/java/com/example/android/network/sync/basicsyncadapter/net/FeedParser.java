@@ -83,7 +83,7 @@ public class FeedParser {
         // Search for <feed> tags. These wrap the beginning/end of an Atom document.
         //
         // Example:
-        // <?xml version="1.0" encoding="utf-8"?>
+        // <?ActivityMain version="1.0" encoding="utf-8"?>
         // <feed xmlns="http://www.w3.org/2005/Atom">
         // ...
         // </feed>

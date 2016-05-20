@@ -4,6 +4,10 @@
         "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\activity_entry_list.xml"
     },
     {
+        "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\listlayout.xml",
+        "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\listlayout.xml"
+    },
+    {
         "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\actionbar_indeterminate_progress.xml",
         "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\actionbar_indeterminate_progress.xml"
     }

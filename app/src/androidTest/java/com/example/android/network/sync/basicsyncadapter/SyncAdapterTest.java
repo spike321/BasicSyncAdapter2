@@ -25,12 +25,12 @@ public class SyncAdapterTest extends ServiceTestCase<SyncService> {
     public void testIncomingFeedParsed()
             throws IOException, XmlPullParserException, RemoteException,
             OperationApplicationException, ParseException {
-        String sampleFeed = "<?xml version=\"1.0\"?>\n" +
+        String sampleFeed = "<?ActivityMain version=\"1.0\"?>\n" +
                 "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n" +
                 " \n" +
                 "  <title>Sample Blog</title>\n" +
                 "  <link href=\"http://example.com/\"/>\n" +
-                "  <link type=\"application/atom+xml\" rel=\"self\" href=\"http://example.xom/feed.xml\"/>\n" +
+                "  <link type=\"application/atom+ActivityMain\" rel=\"self\" href=\"http://example.xom/feed.ActivityMain\"/>\n" +
                 "  <updated>2013-05-16T16:53:23-07:00</updated>\n" +
                 "  <id>http://example.com/</id>\n" +
                 "  <author>\n" +

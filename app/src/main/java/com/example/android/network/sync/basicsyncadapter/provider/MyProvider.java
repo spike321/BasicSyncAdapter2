@@ -7,7 +7,6 @@ import android.content.UriMatcher;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 public class MyProvider extends ContentProvider {
 
@@ -24,6 +23,9 @@ public class MyProvider extends ContentProvider {
     }
     private MyDB db = null;
 
+    public MyProvider() {
+    }
+
     @Override
     public boolean onCreate() {
         Context context = getContext();
@@ -31,7 +33,6 @@ public class MyProvider extends ContentProvider {
         return true;
     }
 
-    @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         String id = null;
@@ -80,4 +81,4 @@ public class MyProvider extends ContentProvider {
         return db.updateIntegers(id, values);
     }
 }
-}
+
