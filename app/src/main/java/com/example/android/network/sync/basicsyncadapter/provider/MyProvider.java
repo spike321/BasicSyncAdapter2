@@ -21,6 +21,7 @@ public class MyProvider extends ContentProvider {
         uriMatcher.addURI(PROVIDER_NAME, "integers/#", INTEGER_ID);
         return uriMatcher;
     }
+    private MyDB db = null;
 
     @Override
     public boolean onCreate() {
