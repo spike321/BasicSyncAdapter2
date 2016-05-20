@@ -1,10 +1,12 @@
 package com.example.android.network.sync.basicsyncadapter.provider;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
+import java.sql.SQLException;
 
 public class MyDB extends SQLiteOpenHelper {
 
@@ -49,5 +51,30 @@ public class MyDB extends SQLiteOpenHelper {
                 null,
                 sortOrder);
         return cursor;
+    }
+
+    public long addNewInteger(ContentValues values) throws SQLException {
+        long id = getWritableDatabase().insert(TABLE_NAME, "", values);
+        if(id <=0 ) {
+            throw new SQLException("Failed to add an integer");
+        }
+
+        return id;
+    }
+
+    public int deleteIntegers(String id) {
+        if(id == null) {
+            return getWritableDatabase().delete(TABLE_NAME, null , null);
+        } else {
+            return getWritableDatabase().delete(TABLE_NAME, "_id=?", new String[]{id});
+        }
+    }
+
+    public int updateIntegers(String id, ContentValues values) {
+        if(id == null) {
+            return getWritableDatabase().update(TABLE_NAME, values, null, null);
+        } else {
+            return getWritableDatabase().update(TABLE_NAME, values, "_id=?", new String[]{id});
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.android.network.sync.basicsyncadapter.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.content.Context;
@@ -33,28 +34,50 @@ public class MyProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        String id = null;
+        if(uriMatcher.match(uri) == INTEGER_ID) {
+            //Query is for one single integer. Get the ID from the URI.
+            id = uri.getPathSegments().get(1);
+        }
+        return db.getIntegers(id, projection, selection, selectionArgs, sortOrder);
     }
 
-    @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        return "integers";
     }
 
-    @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        try {
+            long id = db.addNewInteger(values);
+            Uri returnUri = ContentUris.withAppendedId(CONTENT_URI, id);
+            return returnUri;
+        } catch(Exception e) {
+            return null;
+        }
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        String id = null;
+        if(uriMatcher.match(uri) == INTEGER_ID) {
+            //Delete is for one single integer. Get the ID from the URI.
+            id = uri.getPathSegments().get(1);
+        }
+
+        return db.deleteIntegers(id);
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        String id = null;
+        if(uriMatcher.match(uri) == INTEGER_ID) {
+            //Update is for one single integer. Get the ID from the URI.
+            id = uri.getPathSegments().get(1);
+        }
+
+        return db.updateIntegers(id, values);
     }
+}
 }
