@@ -1,129 +1,217 @@
-/*
- * Copyright 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example.android.network.sync.basicsyncadapter.accounts;
 
+
+import fm.last.android.LastFMApplication;
+import fm.last.android.LastFm;
+import fm.last.android.R;
+import fm.last.android.activity.AccountAccessPrompt;
+import fm.last.android.activity.AccountFailActivity;
+import fm.last.api.MD5;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.util.Log;
 
-public class GenericAccountService extends Service {
-    private static final String TAG = "GenericAccountService";
-    private static final String ACCOUNT_TYPE = "com.example.android.network.sync.basicsyncadapter";
-    public static final String ACCOUNT_NAME = "sync";
-    private Authenticator mAuthenticator = null;
+/**
+ * @author sam
+ *
+ */
+public class AccountAuthenticatorService extends Service {
+    private static final String TAG = "AccountAuthenticatorService";
+    private static AccountAuthenticatorImpl sAccountAuthenticator = null;
 
-    public GenericAccountService() {
+    public AccountAuthenticatorService() {
         super();
     }
-    /**
-     * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.
-     *
-     * @return Handle to application's account (not guaranteed to resolve unless CreateSyncAccount()
-     *         has been called)
-     */
-    public static Account GetAccount() {
-        // Note: Normally the account name is set to the user's identity (username or email
-        // address). However, since we aren't actually using any user accounts, it makes more sense
-        // to use a generic string in this case.
-        //
-        // This string should *not* be localized. If the user switches locale, we would not be
-        // able to locate the old account, and may erroneously register multiple accounts.
-        final String accountName = ACCOUNT_NAME;
-        return new Account(accountName, ACCOUNT_TYPE);
-    }
 
-    @Override
-    public void onCreate() {
-        Log.i(TAG, "Service created");
-        mAuthenticator = new Authenticator(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.i(TAG, "Service destroyed");
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mAuthenticator.getIBinder();
-    }
-
-    public class Authenticator extends AbstractAccountAuthenticator {
-
+    private static class AccountAuthenticatorImpl extends AbstractAccountAuthenticator {
         private Context mContext;
 
-        public Authenticator(Context context) {
+        public AccountAuthenticatorImpl(Context context) {
             super(context);
             mContext = context;
         }
 
-        @Override
-        public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                     String s) {
-            throw new UnsupportedOperationException();
+        public static Bundle addAccount(Context ctx, String username, String password) {
+            Bundle result = null;
+            Account account = new Account(username, ctx.getString(R.string.ACCOUNT_TYPE));
+            AccountManager am = AccountManager.get(ctx);
+            if (am.addAccountExplicitly(account, MD5.getInstance().hash(password), null)) {
+                result = new Bundle();
+                result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+                result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+            }
+            return result;
         }
 
-        @Override
-        public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                 String s, String s2, String[] strings, Bundle bundle)
-                throws NetworkErrorException {
-           return null;
+        public static Boolean hasLastfmAccount(Context ctx) {
+            AccountManager am = AccountManager.get(ctx);
+            Account[] accounts = am.getAccountsByType(ctx.getString(R.string.ACCOUNT_TYPE));
+            if(accounts != null && accounts.length > 0)
+                return true;
+            else
+                return false;
         }
 
+        public static void removeLastfmAccount(Context ctx) {
+            AccountManager am = AccountManager.get(ctx);
+            Account[] accounts = am.getAccountsByType(ctx.getString(R.string.ACCOUNT_TYPE));
+            for(Account account : accounts) {
+                am.removeAccount(account, null, null);
+            }
+        }
+
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#addAccount(android.accounts.AccountAuthenticatorResponse, java.lang.String, java.lang.String, java.lang.String[], android.os.Bundle)
+         */
         @Override
-        public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                         Account account, Bundle bundle)
+        public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options)
                 throws NetworkErrorException {
+            Bundle result;
+
+            if(hasLastfmAccount(mContext)) {
+                result = new Bundle();
+                Intent i = new Intent(mContext, AccountFailActivity.class);
+                i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+                result.putParcelable(AccountManager.KEY_INTENT, i);
+                return result;
+            } else {
+                result = new Bundle();
+                Intent i = new Intent(mContext, LastFm.class);
+                i.setAction("fm.last.android.sync.LOGIN");
+                i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+                result.putParcelable(AccountManager.KEY_INTENT, i);
+            }
+            return result;
+        }
+
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#confirmCredentials(android.accounts.AccountAuthenticatorResponse, android.accounts.Account, android.os.Bundle)
+         */
+        @Override
+        public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options) {
+            // TODO Auto-generated method stub
+            Log.i(TAG, "confirmCredentials");
             return null;
         }
 
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#editProperties(android.accounts.AccountAuthenticatorResponse, java.lang.String)
+         */
         @Override
-        public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                   Account account, String s, Bundle bundle)
-                throws NetworkErrorException {
-            throw new UnsupportedOperationException();
+        public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {
+            // TODO Auto-generated method stub
+            Log.i(TAG, "editProperties");
+            return null;
         }
 
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#getAuthToken(android.accounts.AccountAuthenticatorResponse, android.accounts.Account, java.lang.String, android.os.Bundle)
+         */
         @Override
-        public String getAuthTokenLabel(String s) {
-            throw new UnsupportedOperationException();
+        public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
+            String api_key = options.getString("api_key");
+            String api_secret = options.getString("api_secret");
+
+            AccountManager am = AccountManager.get(mContext);
+            String user = account.name.toLowerCase().trim();
+            String md5Password = am.getPassword(account);
+            String authToken = MD5.getInstance().hash(user + md5Password);
+
+            Bundle result = new Bundle();
+            Intent i = new Intent(mContext, AccountAccessPrompt.class);
+            i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+            i.putExtra("api_key", api_key);
+            i.putExtra("api_secret", api_secret);
+            i.putExtra("user", user);
+            i.putExtra("authToken", authToken);
+            result.putParcelable(AccountManager.KEY_INTENT, i);
+            return result;
         }
 
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#getAuthTokenLabel(java.lang.String)
+         */
         @Override
-        public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                        Account account, String s, Bundle bundle)
-                throws NetworkErrorException {
-            throw new UnsupportedOperationException();
+        public String getAuthTokenLabel(String authTokenType) {
+            // TODO Auto-generated method stub
+            Log.i(TAG, "getAuthTokenLabel");
+            return null;
         }
 
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#hasFeatures(android.accounts.AccountAuthenticatorResponse, android.accounts.Account, java.lang.String[])
+         */
         @Override
-        public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                  Account account, String[] strings)
-                throws NetworkErrorException {
-            throw new UnsupportedOperationException();
+        public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features) throws NetworkErrorException {
+            // TODO Auto-generated method stub
+            Log.i(TAG, "hasFeatures: " + features);
+            return null;
+        }
+
+        /* (non-Javadoc)
+         * @see android.accounts.AbstractAccountAuthenticator#updateCredentials(android.accounts.AccountAuthenticatorResponse, android.accounts.Account, java.lang.String, android.os.Bundle)
+         */
+        @Override
+        public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) {
+            // TODO Auto-generated method stub
+            Log.i(TAG, "updateCredentials");
+            return null;
         }
     }
 
-}
+    @Override
+    public IBinder onBind(Intent intent) {
+        IBinder ret = null;
+        if (intent.getAction().equals(android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT))
+            ret = getAuthenticator().getIBinder();
+        return ret;
+    }
 
+    public static void addAccount(Context ctx, String username, String password, Parcelable response) {
+        AccountAuthenticatorResponse authResponse = (AccountAuthenticatorResponse)response;
+        Bundle result = AccountAuthenticatorImpl.addAccount(ctx, username, password);
+        if(authResponse != null)
+            authResponse.onResult(result);
+    }
+
+    public static Boolean hasLastfmAccount(Context ctx) {
+        return AccountAuthenticatorImpl.hasLastfmAccount(ctx);
+    }
+
+    public static void removeLastfmAccount(Context ctx) {
+        AccountAuthenticatorImpl.removeLastfmAccount(ctx);
+    }
+
+    public static void resyncAccount(Context context) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(LastFMApplication.getInstance()).edit();
+        editor.putBoolean("do_full_sync", true);
+        editor.commit();
+        AccountManager am = AccountManager.get(context);
+        Account[] accounts = am.getAccountsByType(context.getString(R.string.ACCOUNT_TYPE));
+        if(ContentResolver.getSyncAutomatically(accounts[0], ContactsContract.AUTHORITY)) {
+            //Try turning it off and on again
+            ContentResolver.setSyncAutomatically(accounts[0], ContactsContract.AUTHORITY, false);
+            ContentResolver.setSyncAutomatically(accounts[0], ContactsContract.AUTHORITY, true);
+        }
+    }
+
+    private AccountAuthenticatorImpl getAuthenticator() {
+        if (sAccountAuthenticator == null)
+            sAccountAuthenticator = new AccountAuthenticatorImpl(this);
+        return sAccountAuthenticator;
+    }
+}
