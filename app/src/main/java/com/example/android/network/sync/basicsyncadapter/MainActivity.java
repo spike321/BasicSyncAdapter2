@@ -2,19 +2,18 @@ package com.example.android.network.sync.basicsyncadapter;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.CursorLoader;
+//import android.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+//import android.widget.SimpleCursorAdapter;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import com.example.android.network.sync.basicsyncadapter.R;
 
 
 public class MainActivity extends Activity {
@@ -23,7 +22,7 @@ public class MainActivity extends Activity {
     private static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME);
 
     private ListView listView;
-    private android.widget.SimpleCursorAdapter adapter;
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

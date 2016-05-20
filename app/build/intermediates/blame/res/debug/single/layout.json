@@ -1,11 +1,15 @@
 [
     {
+        "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\list_layout.xml",
+        "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\list_layout.xml"
+    },
+    {
         "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_entry_list.xml",
         "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\activity_entry_list.xml"
     },
     {
-        "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\listlayout.xml",
-        "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\listlayout.xml"
+        "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\src\\main\\res\\layout\\activity_main.xml"
     },
     {
         "merged": "C:\\Users\\Sahiti\\StudioProjects\\BasicSyncAdapter\\app\\build\\intermediates\\res\\merged\\debug\\layout\\actionbar_indeterminate_progress.xml",
